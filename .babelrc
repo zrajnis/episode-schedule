@@ -1,0 +1,18 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/typescript",
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-object-rest-spread",
+    ["module-resolver", {
+      "root": [
+        "./src/",
+        "./"
+      ],
+      "extensions": [".js", ".jsx", "ts"],
+    }],
+    "react-hot-loader/babel"
+  ]
+}

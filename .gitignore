@@ -1,0 +1,12 @@
+.DS_STORE
+.env
+node_modules
+dist/
+remote-repo/
+coverage/
+*.log*
+*.sublime-project
+*.sublime-workspace
+.idea
+*.iml
+.vscode
