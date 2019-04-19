@@ -1,5 +1,5 @@
 {
-  "name": "series-schedule",
+  "name": "episode-schedule",
   "version": "0.0.1",
   "description": "Simple application for tracking when does which serie air",
   "main": "src/index.js",
@@ -13,6 +13,7 @@
   },
   "keywords": [
     "series",
+    "episode",
     "tv",
     "watch"
   ],
