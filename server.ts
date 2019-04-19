@@ -1,4 +1,3 @@
-
 require('dotenv-safe').load()
 
 import express from 'express'
