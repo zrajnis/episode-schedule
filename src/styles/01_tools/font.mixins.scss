@@ -1,0 +1,15 @@
+@mixin font-colors {
+  @each $element, $color in $font-colors {
+    &-#{$element} {
+      color: $color;
+    }
+  }
+}
+
+@mixin font-sizes {
+  @each $element, $size in $font-sizes {
+    &-#{$element} {
+      font-size: $size;
+    }
+  }
+}

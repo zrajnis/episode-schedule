@@ -5,6 +5,8 @@ import { BrowserRouter } from 'react-router-dom'
 
 import App from 'containers/App'
 
+import 'styles/main.scss'
+
 const render = (Component: any) => {
   ReactDOM.render(
     <AppContainer>

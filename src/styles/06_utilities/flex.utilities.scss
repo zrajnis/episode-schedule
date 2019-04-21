@@ -1,0 +1,15 @@
+.#{$u}flex {
+  @include flex;
+
+  &-middle {
+    @include flex-middle;
+  }
+
+  &-center {
+    @include flex-center;
+  }
+
+  &-between {
+    @include flex-between;
+  }
+}

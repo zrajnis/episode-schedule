@@ -27,18 +27,11 @@ const config = {
           options: {
             importLoaders: 1,
             localIdentName: '[local]',
-            minimize: true,
             modules: true
           }
         },
         'postcss-loader',
-        'sass-loader',
-        {
-          loader: 'sass-resources-loader',
-          options: {
-            resources: './src/styles/main.scss'
-          }
-        }
+        'sass-loader'
       ]
     }]
   },
