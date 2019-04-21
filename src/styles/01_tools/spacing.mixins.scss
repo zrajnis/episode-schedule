@@ -1,0 +1,17 @@
+@mixin spacing($property) {
+  @each $side in $sides {
+    @each $spacing in $spacings {
+      &-#{str-slice($side, 0, 1)}-#{$spacing} {
+        #{$property}-#{$side}: $spacing;
+      }
+    }
+  }
+}
+
+@mixin margin-spacing {
+  @include spacing(margin);
+}
+
+@mixin padding-spacing {
+  @include spacing(padding);
+}

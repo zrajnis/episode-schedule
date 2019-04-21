@@ -1,0 +1,7 @@
+.#{$u}m {
+  @include margin-spacing;
+}
+
+.#{$u}p {
+  @include padding-spacing;
+}

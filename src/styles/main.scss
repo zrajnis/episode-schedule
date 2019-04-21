@@ -1,19 +1,11 @@
-
-/* 00_settings imports */
-@import './00_settings/globals.settings';
-@import './00_settings/namespaces.settings';
-
-/* 01_tools imports */
-@import './01_tools/flex.mixins';
-@import './01_tools/font.mixins';
-
-/* 02_generic imports */
-@import './02_generic/box-sizing.generic';
-
-/* 03_elements imports */
-@import './03_elements/body.elements';
-@import './03_elements/html.elements';
-
-/* 06_utilities imports */
-@import './06_utilities/flex.utilities';
-@import './06_utilities/font.utilities';
+@import '00_settings/globals.settings';
+@import '00_settings/namespaces.settings';
+@import '01_tools/flex.mixins';
+@import '01_tools/font.mixins';
+@import '01_tools/spacing.mixins';
+@import '02_generic/box-sizing.generic';
+@import '03_elements/body.elements';
+@import '03_elements/html.elements';
+@import '06_utilities/flex.utilities';
+@import '06_utilities/font.utilities';
+@import '06_utilities/spacing.utilities';
