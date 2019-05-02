@@ -1,0 +1,28 @@
+.#{$c}link {
+  background: $color-black;
+  height: 90px;
+  position: relative;
+  width: 4px;
+
+  &::after {
+    border-color: transparent transparent $color-black transparent;
+    border-style: solid;
+    border-width: 0 6px 14px 6px;
+    content: '';
+    height: 0;
+    left: -4px;
+    position: absolute;
+    top: -6px;
+    width: 0;
+  }
+
+  &--left {
+    left: 45px;
+    transform: rotate(-120deg);
+  }
+
+  &--right {
+    left: 120px;
+    transform: rotate(120deg);
+  }
+}

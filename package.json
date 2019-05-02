@@ -1,5 +1,5 @@
 {
-  "name": "episode-schedule",
+  "name": "binary-trees",
   "version": "0.0.1",
   "description": "Simple application for tracking when does which serie air",
   "main": "src/index.js",
@@ -13,10 +13,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "series",
-    "episode",
-    "tv",
-    "watch"
+    "trees",
+    "binary"
   ],
   "author": "Zvonimir Rajniš",
   "license": "ISC",

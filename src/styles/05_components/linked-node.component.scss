@@ -1,0 +1,9 @@
+.#{$c}linked-node {
+  width: 170px;
+
+  &__links {
+    align-items: center;
+    display: flex;
+    height: 52px;
+  }
+}
