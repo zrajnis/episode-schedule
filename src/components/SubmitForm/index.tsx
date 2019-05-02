@@ -9,11 +9,11 @@ const SubmitForm = ({ onSubmit }: ComponentProps): ReactElement => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    onSubmit()
+    onSubmit(inputValue)
     setInputValue('')
   }
 
-  const handleChange = ({ target: { value } }: any) => setInputValue(value)
+  const handleChange = ({ target: { value } }: any) => setInputValue(Number(value))
 
   return (
     <form onSubmit={handleSubmit}>
