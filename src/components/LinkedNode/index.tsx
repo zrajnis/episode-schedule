@@ -4,8 +4,8 @@ import Link from 'components/Link'
 import Node from 'components/Node'
 
 interface ComponentProps {
-  color: 'blue' | 'red';
-  value: number;
+  color: 'blue' | 'red',
+  value: number
 }
 
 const LinkedNode = (props: ComponentProps): ReactElement =>

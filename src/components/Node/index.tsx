@@ -1,8 +1,8 @@
 import React from 'react'
 
 interface ComponentProps {
-  color: 'blue' | 'red';
-  value: number;
+  color: 'blue' | 'red',
+  value: number
 }
 
 const Node = ({ color, value }: ComponentProps): ReactElement =>

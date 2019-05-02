@@ -1,0 +1,11 @@
+.#{$c}input {
+  border: 1px solid $color-secondary;
+  border-radius: 6px;
+  height: 30px;
+  padding: 0 10px;
+
+  &:focus {
+    box-shadow: 0 0 5px 0 rgba($color-secondary, 0.75);
+    outline: none;
+  }
+}
