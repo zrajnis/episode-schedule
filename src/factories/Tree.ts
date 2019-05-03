@@ -3,11 +3,12 @@ import NodeModel from 'models/node'
 
 const TreeFactory = () => {
   let rootNode = null
+  const tree = {}
 
-  const add = (value: number) => {
+  tree.add = (value: number) => {
     if (!rootNode) {
       rootNode = NodeFactory(value)
-      return
+      return tree
     }
 
     const searchTree = (node: NodeModel) => {
@@ -32,9 +33,10 @@ const TreeFactory = () => {
     }
 
     searchTree(rootNode, value)
+    return tree
   }
 
-  const getMatrix = () => {
+  tree.getMatrix = () => {
 
     if (!rootNode) {
       return
@@ -42,36 +44,35 @@ const TreeFactory = () => {
 
     const matrix = [ [ rootNode.value ] ]
     const initialDepth = 1
+    const initialNodeIndex = 0
 
-    const recursionFn = (node, depth: number) => {
+    const recursiveFn = (node, depth: number, nodeIndex: number) => {
       const newDepth = depth + 1
+
       if (!matrix[depth]) {
-        matrix[depth] = []
+        matrix[depth] = new Array(depth * 2).fill(null)
       }
 
       if (node.left) {
-        matrix[depth].push(node.left.value)
-        recursionFn(node.left, newDepth)
+        matrix[depth][nodeIndex] = node.left.value
+        recursiveFn(node.left, newDepth, nodeIndex * 2)
       }
+
   
       if (node.right) {
-        matrix[depth].push(node.right.value)
-        recursionFn(node.right, newDepth)
+        matrix[depth][nodeIndex + 1] = node.right.value
+        recursiveFn(node.right, newDepth, (nodeIndex + 1) * 2)
       }
 
       return
     }
 
-    recursionFn(rootNode, initialDepth)
-    console.log(matrix)
+    recursiveFn(rootNode, initialDepth, initialNodeIndex)
+
+    return (matrix.pop(), matrix) // remove last row and return the matrix
   }
 
-  return {
-    add,
-    rootNode,
-    getMatrix
-  }
-
+  return tree
 }
 
 export default TreeFactory
