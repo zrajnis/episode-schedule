@@ -26,13 +26,14 @@ const BinarySearchTree = (): ReactElement => {
 
   const displayRows = matrix[0].elements &&
     <div className='u-m-t-50'>
-      {matrix.map((row: IMatrixRow[], i: number) =>
-        <div className='u-flex-middle' key={row.id}>
-          {row.elements.map((el: IMatrixElement, j: number) =>
+      {matrix.map((row: IMatrixRow[]) =>
+        <div className='u-flex-middle'
+          key={row.id}>
+          {row.elements.map((el: IMatrixElement, i: number) =>
             <LinkedNode
-              color={j % 2 === 0 ? 'blue' : 'red'}
-              value={el.value}
+              color={i % 2 === 0 ? 'blue' : 'red'}
               key={el.id}
+              value={el.value}
             />
           )}
         </div>

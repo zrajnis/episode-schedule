@@ -11,7 +11,7 @@
         "./src/",
         "./"
       ],
-      "extensions": [".js", ".jsx", "ts"],
+      "extensions": [ ".js", ".ts", "tsx" ],
     }],
     "react-hot-loader/babel"
   ]

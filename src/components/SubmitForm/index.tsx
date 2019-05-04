@@ -7,7 +7,7 @@ interface ComponentProps {
 const SubmitForm = ({ onSubmit }: ComponentProps): ReactElement => {
   const [ inputValue, setInputValue ] = useState('')
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: Event) => {
     e.preventDefault()
 
     if (inputValue === '') {
@@ -18,7 +18,7 @@ const SubmitForm = ({ onSubmit }: ComponentProps): ReactElement => {
     setInputValue('')
   }
 
-  const handleChange = ({ target: { value } }: any) => setInputValue(Number(value))
+  const handleChange = ({ target: { value } }: Event) => setInputValue(Number(value))
 
   return (
     <form onSubmit={handleSubmit}>

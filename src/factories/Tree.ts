@@ -12,14 +12,14 @@ const TreeFactory = () => {
 
   const addToMatrix = (value: number, depth: number, nodeIndex: number) => {
     if (!matrix[depth]) {
-      const elements = [ ...Array(2 ** depth) ].map((el: undefined): IMatrixElement => ({
+      const elements = [ ...Array(2 ** depth) ].map((): IMatrixElement => ({
         id: shortid.generate(),
         value: null
       }))
   
       matrix[depth] = {
-        id: shortid.generate(),
-        elements
+        elements,
+        id: shortid.generate()
       }
     }
 
@@ -68,20 +68,20 @@ const TreeFactory = () => {
         value: rootNode.value
       }
       const rootMatrixRow = {
-        id: shortid.generate(),
-        elements: [ rootMatrixEl ]
+        elements: [ rootMatrixEl ],
+        id: shortid.generate()
       }
 
-      matrix = [ rootMatrixRow ]
-      console.log(matrix)
+      matrix = [ rootMatrixRow ]      
+      
       return tree
     }
 
     const initialDepth = 1
     const initialNodeIndex = 0
 
-    recursiveAdd(rootNode, value, initialDepth, initialNodeIndex)
-    console.log(matrix)
+    recursiveAdd(rootNode, value, initialDepth, initialNodeIndex)    
+
     return tree
   }
 

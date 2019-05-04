@@ -3,11 +3,23 @@ module.exports = {
     'browser': true
   },
   extends: [
-    'standard',
-    'standard-react'
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended', 
   ],
-  parser: 'babel-eslint',
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaFeatures: {
+        jsx: true
+    },
+    ecmaVersion: 2018,
+    sourceType: 'module'
+  },
   rules: {
+    '@typescript-eslint/indent': [ 'error', 2 ],
+    '@typescript-eslint/explicit-function-return-type': false,
+    '@typescript-eslint/member-delimiter-style': false,
+    '@typescript-eslint/no-var-requires': false,
+    '@typescript-eslint/interface-name-prefix': 'always',
     'max-len': [
       'error',
       120
