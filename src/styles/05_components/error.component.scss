@@ -1,0 +1,10 @@
+.#{$c}error {
+  color: $color-danger;
+  font-weight: $font-weight-bold;
+  height: 20px;
+  margin-top: 10px;
+
+  &--hidden {
+    visibility: hidden;
+  }
+}

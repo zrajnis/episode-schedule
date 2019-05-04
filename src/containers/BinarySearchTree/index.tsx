@@ -8,21 +8,28 @@ import TreeFactory from 'factories/tree'
 
 const tree = TreeFactory()
 
-const BinarySearchTree = () :ReactElement => {
+const BinarySearchTree = (): ReactElement => {
+  const [ error, setError ] = useState(null)
   const [ matrix, setMatrix ] = useState([[]])
 
   const onSubmit = (val: number) => {
-    setMatrix(tree.add(val).getMatrix())
+    try {
+      tree.add(val)
+      setMatrix(tree.getMatrix())
+    } catch (e) {
+      setError(e.message)
+      setTimeout(() => setError(null), 2000)
+    }
   }
 
-  const displayRows = () =>
+  const displayRows =
     <div className='u-m-t-50'>
-      {matrix.map((row: (number | null)[]) =>
-        <div className='u-flex-middle' key={JSON.stringify(row)}>
-          {row.map((val: number | null, i: number) =>
+      {matrix.map((row: (number | string)[], i: number) =>
+        <div className='u-flex-middle' key={i}>
+          {row.map((val: number | string, j: number) =>
             <LinkedNode
-              color={i % 2 === 0 ? 'blue' : 'red'}
-              value={val}
+              color={j % 2 === 0 ? 'blue' : 'red'}
+              value={typeof val === 'number' ? val : null}
               key={val}
             />
           )}
@@ -33,7 +40,8 @@ const BinarySearchTree = () :ReactElement => {
   return (
     <div>
       <SubmitForm onSubmit={onSubmit} />
-      {displayRows()}
+      <div className={`${error ? 'c-error' : 'c-error c-error--hidden'}`}>{error}</div>
+      {displayRows}
     </div>
   )
 }

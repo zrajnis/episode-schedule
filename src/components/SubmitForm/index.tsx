@@ -9,6 +9,11 @@ const SubmitForm = ({ onSubmit }: ComponentProps): ReactElement => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
+
+    if (!inputValue) {
+      return
+    }
+
     onSubmit(inputValue)
     setInputValue('')
   }
