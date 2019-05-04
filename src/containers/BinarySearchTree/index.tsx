@@ -5,6 +5,8 @@ import LinkedNode from 'components/LinkedNode'
 import SubmitForm from 'components/SubmitForm'
 
 import TreeFactory from 'factories/tree'
+import IMatrixElement from 'models/matrixElement'
+import IMatrixRow from 'models/matrixRow'
 
 const tree = TreeFactory()
 
@@ -22,15 +24,15 @@ const BinarySearchTree = (): ReactElement => {
     }
   }
 
-  const displayRows =
+  const displayRows = matrix[0].elements &&
     <div className='u-m-t-50'>
-      {matrix.map((row: (number | string)[], i: number) =>
-        <div className='u-flex-middle' key={i}>
-          {row.map((val: number | string, j: number) =>
+      {matrix.map((row: IMatrixRow[], i: number) =>
+        <div className='u-flex-middle' key={row.id}>
+          {row.elements.map((el: IMatrixElement, j: number) =>
             <LinkedNode
               color={j % 2 === 0 ? 'blue' : 'red'}
-              value={typeof val === 'number' ? val : null}
-              key={val}
+              value={el.value}
+              key={el.id}
             />
           )}
         </div>

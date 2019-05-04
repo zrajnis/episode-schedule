@@ -10,7 +10,7 @@ const SubmitForm = ({ onSubmit }: ComponentProps): ReactElement => {
   const handleSubmit = (e: any) => {
     e.preventDefault()
 
-    if (!inputValue) {
+    if (inputValue === '') {
       return
     }
 

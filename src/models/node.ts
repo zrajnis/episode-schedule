@@ -1,7 +1,7 @@
-interface NodeModel {
+interface INode {
   left: null | INode,
   right: null | INode,
   value: number,
 }
 
-export default NodeModel
+export default INode

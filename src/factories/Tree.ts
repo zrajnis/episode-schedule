@@ -1,20 +1,46 @@
 import shortid from 'shortid'
 
 import NodeFactory from 'factories/Node'
-import NodeModel from 'models/node'
+import INode from 'models/node'
+import IMatrixElement from 'models/matrixElement'
+import IMatrixRow from 'models/matrixRow'
 
 const TreeFactory = () => {
-  let rootNode = null
+  let rootNode: INode | null = null
+  let matrix: IMatrixRow[]
   const tree = {}
 
-  const recursiveAdd = (node: NodeModel, value: number, depth: number) => {
+  const addToMatrix = (value: number, depth: number, nodeIndex: number) => {
+    if (!matrix[depth]) {
+      const elements = [ ...Array(2 ** depth) ].map((el: undefined): IMatrixElement => ({
+        id: shortid.generate(),
+        value: null
+      }))
+  
+      matrix[depth] = {
+        id: shortid.generate(),
+        elements
+      }
+    }
+
+    matrix[depth].elements[nodeIndex] = {
+      id: shortid.generate(), // value works too but for consistency sake use shortid.generate() everywhere
+      value
+    }
+  }
+
+  const recursiveAdd = (node: INode, value: number, depth: number, nodeIndex: number) => {
     if (value < node.value && !node.left) {
       node.left = NodeFactory(value)
+      addToMatrix(value, depth, nodeIndex)
+
       return
     }
 
     if (value > node.value && !node.right) {
       node.right = NodeFactory(value)
+      addToMatrix(value, depth, nodeIndex + 1)
+
       return
     }
 
@@ -23,11 +49,11 @@ const TreeFactory = () => {
     }
 
     if (value < node.value) {
-      return recursiveAdd(node.left, value, depth + 1)
+      return recursiveAdd(node.left, value, depth + 1, nodeIndex * 2)
     }
 
     if (value > node.value) {
-      return recursiveAdd(node.right, value, depth + 1)
+      return recursiveAdd(node.right, value, depth + 1, (nodeIndex + 1) * 2)
     }
 
     throw Error(`Number ${value} already exists`)
@@ -36,52 +62,30 @@ const TreeFactory = () => {
   tree.add = (value: number) => {
     if (!rootNode) {
       rootNode = NodeFactory(value)
+
+      const rootMatrixEl: IMatrixElement = {
+        id: shortid.generate(),
+        value: rootNode.value
+      }
+      const rootMatrixRow = {
+        id: shortid.generate(),
+        elements: [ rootMatrixEl ]
+      }
+
+      matrix = [ rootMatrixRow ]
+      console.log(matrix)
       return tree
     }
 
     const initialDepth = 1
+    const initialNodeIndex = 0
 
-    recursiveAdd(rootNode, value, initialDepth)
-
+    recursiveAdd(rootNode, value, initialDepth, initialNodeIndex)
+    console.log(matrix)
     return tree
   }
 
-  const recurseMatrix = (matrix: (string | number)[][], node: NodeModel, depth: number, nodeIndex: number) => {
-    if (!matrix[depth]) {
-      matrix[depth] = [ ...Array(2 ** depth) ].map((el: undefined) => shortid.generate())
-    }
-
-    if (node.left) {
-      assignMatrixAndRecurse(matrix, node.left, depth, nodeIndex)
-    }
-
-    if (node.right) {
-      assignMatrixAndRecurse(matrix, node.right, depth, nodeIndex + 1)
-    }
-
-    return
-  }
-
-  const assignMatrixAndRecurse = (matrix: (string | number)[][], node: NodeModel, depth: number, nodeIndex: number) => {
-    matrix[depth][nodeIndex] = node.value
-
-    return recurseMatrix(matrix, node, depth + 1, nodeIndex * 2)
-  }
-
-  tree.getMatrix = () => {
-
-    if (!rootNode) {
-      return [[]]
-    }
-
-    const matrix = [ [ rootNode.value ] ]
-    const initialDepth = 1
-    const initialNodeIndex = 0
-
-    recurseMatrix(matrix, rootNode, initialDepth, initialNodeIndex)
-
-    return (matrix.pop(), matrix) // remove last row and return the matrix
-  }
+  tree.getMatrix = () => [ ...matrix ]
 
   return tree
 }
