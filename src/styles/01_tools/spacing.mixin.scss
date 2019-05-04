@@ -2,7 +2,7 @@
   @each $side in $sides {
     @each $spacing in $spacings {
       &-#{str-slice($side, 0, 1)}-#{$spacing} {
-        #{$property}-#{$side}: $spacing;
+        #{$property}-#{$side}: #{$spacing}px;
       }
     }
   }
