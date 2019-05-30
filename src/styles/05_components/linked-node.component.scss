@@ -1,9 +1,74 @@
 .#{$c}linked-node {
-  width: 170px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 88px;
+  position: relative;
 
-  &__links {
+  &__node {
     align-items: center;
+    border: 1px solid $color-black;
+    border-radius: 50%;
+    color: $color-black;
     display: flex;
-    height: 52px;
+    height: 36px;
+    justify-content: center;
+    width: 36px;
+
+    &--blue {
+      background: $color-secondary;
+      color: $color-white;
+    }
+
+    &--red {
+      background: $color-primary;
+    }
+  }
+
+  &__link {
+    background: $color-black;
+    height: 90px;
+    position: absolute;
+    width: 4px;
+
+    &::after {
+      border-color: transparent transparent $color-black transparent;
+      border-style: solid;
+      border-width: 0 6px 14px 6px;
+      content: '';
+      height: 0;
+      left: -4px;
+      position: absolute;
+      top: -6px;
+      width: 0;
+    }
+  }
+
+  @for $i from 1 through 5 {
+    &--#{$i} {
+      width: calc(100% - #{pow(2, $i)}px);
+    }
+  }
+
+  &--1 {
+    @include links(232px, -50px, 121px, 106deg);
+  }
+
+  &--2 {
+    @include links(116px, 7px, 57px, 120deg);
+  }
+
+  &--3 {
+    @include links(70px, 25px, 32px, 134deg);
+  }
+
+  &--4 {
+    @include links(52px, 34px, 14px, 156deg);
+  }
+
+  &--5 {
+    .#{$c}linked-node__link {
+      display: none;
+    }
   }
 }

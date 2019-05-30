@@ -1,14 +1,15 @@
 {
   "name": "binary-trees",
   "version": "0.0.1",
-  "description": "Simple application for tracking when does which serie air",
+  "description": "Binary tree visualization app",
   "main": "src/index.js",
   "scripts": {
     "build": "rimraf dist/ && webpack --config ./webpack.prod.config.js --progress --profile --colors",
     "dev": "webpack-dev-server",
     "lint:check": "eslint --ext .ts,.tsx,.js .",
     "lint:fix": "eslint --ext .ts,.tsx,.js . --fix",
-    "stylelint": "stylelint ./**/*.scss",
+    "stylelint:check": "stylelint ./**/*.scss",
+    "stylelint:fix": "stylelint ./**/*.scss",
     "check-types": "tsc",
     "start": "babel-node --extensions .ts server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"

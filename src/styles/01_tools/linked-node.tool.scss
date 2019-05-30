@@ -1,0 +1,16 @@
+@mixin links($height, $top, $medianPos, $angle) {
+  .#{$c}linked-node__link {
+    height: $height;
+    top: $top;
+  }
+
+  .#{$c}linked-node__link--left {
+    left: calc(50% - #{$medianPos} - 2px);
+    transform: rotate(-$angle);
+  }
+
+  .#{$c}linked-node__link--right {
+    left: calc(50% + #{$medianPos} - 2px);
+    transform: rotate($angle);
+  }
+}

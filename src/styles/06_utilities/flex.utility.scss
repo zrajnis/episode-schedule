@@ -12,4 +12,8 @@
   &-between {
     @include flex-between;
   }
+
+  &-column {
+    @include flex-column;
+  }
 }

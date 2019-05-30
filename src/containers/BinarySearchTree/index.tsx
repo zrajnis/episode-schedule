@@ -25,14 +25,15 @@ const BinarySearchTree = (): ReactElement => {
   }
 
   const displayRows = matrix[0].elements &&
-    <div className='u-m-t-50'>
-      {matrix.map((row: IMatrixRow[]) =>
+    <div className='c-tree'>
+      {matrix.map((row: IMatrixRow[], i: number) =>
         <div className='u-flex-middle'
           key={row.id}>
-          {row.elements.map((el: IMatrixElement, i: number) =>
+          {row.elements.map((el: IMatrixElement, j: number) =>
             <LinkedNode
-              color={i % 2 === 0 ? 'blue' : 'red'}
+              color={j % 2 === 0 ? 'blue' : 'red'}
               key={el.id}
+              rowNumber={i+1}
               value={el.value}
             />
           )}
@@ -41,11 +42,13 @@ const BinarySearchTree = (): ReactElement => {
     </div>
 
   return (
-    <div>
-      <SubmitForm onSubmit={onSubmit} />
-      <div className={`${error ? 'c-error' : 'c-error c-error--hidden'}`}>{error}</div>
+    <>
+      <div className='u-flex-center u-flex-column u-m-t-50'>
+        <SubmitForm onSubmit={onSubmit} />
+        <div className={`${error ? 'c-error' : 'c-error c-error--hidden'}`}>{error}</div>
+      </div>
       {displayRows}
-    </div>
+    </>
   )
 }
 

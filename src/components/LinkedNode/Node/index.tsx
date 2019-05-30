@@ -2,10 +2,10 @@ import React from 'react'
 
 interface ComponentProps {
   color: 'blue' | 'red',
-  value: number
+  value: number,
 }
 
 const Node = ({ color, value }: ComponentProps): ReactElement =>
-  <div className={`c-node c-node--${color}`}>{value}</div>
+  <div className={`c-linked-node__node c-linked-node__node--${color}`}>{value}</div>
 
 export default Node
