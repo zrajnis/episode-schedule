@@ -2,7 +2,7 @@ import React from 'react'
 
 interface ComponentProps {
   color: 'blue' | 'red',
-  value: number,
+  value: number | null,
 }
 
 const Node = ({ color, value }: ComponentProps): ReactElement =>

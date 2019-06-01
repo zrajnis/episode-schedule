@@ -6,18 +6,17 @@ import Node from 'components/LinkedNode/Node'
 interface ComponentProps {
   color: 'blue' | 'red',
   rowNumber: number,
-  value: number,
+  value: number | null,
 }
 
-const LinkedNode = ({ rowNumber, ...rest }: ComponentProps): ReactElement =>
-  <div className={`c-linked-node c-linked-node--${rowNumber}`}>
-    <Node {...rest} />
-    <Link
-      direction='left'
-    />
-    <Link
-      direction='right'
-    />
+const calculateClasses = (rowNumber: number | undefined, value: number | null) =>
+  `c-linked-node c-linked-node--${rowNumber} o-fade-in ${value != null ? '' : 'u-hidden'}`
+
+const LinkedNode = ({ rowNumber, ...nodeProps }: ComponentProps): ReactElement =>
+  <div className={calculateClasses(rowNumber, nodeProps.value)}>
+    <Node {...nodeProps} />
+    <Link direction='left'/>
+    <Link direction='right'/>
   </div>
 
-export default LinkedNode;
+export default LinkedNode
