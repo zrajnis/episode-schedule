@@ -10,7 +10,7 @@ interface ComponentProps {
 }
 
 const calculateClasses = (rowNumber: number | undefined, value: number | null) =>
-  `c-linked-node c-linked-node--${rowNumber} o-fade-in ${value != null ? '' : 'u-hidden'}`
+  `c-linked-node c-linked-node--${rowNumber} o-fade-in ${value !== null ? '' : 'u-hidden'}`
 
 const LinkedNode = ({ rowNumber, ...nodeProps }: ComponentProps): ReactElement =>
   <div className={calculateClasses(rowNumber, nodeProps.value)}>

@@ -1,9 +1,8 @@
-import shortid from 'shortid'
-
 import NodeFactory from 'factories/Node'
 import INode from 'models/node'
 import IMatrixElement from 'models/matrixElement'
 import IMatrixRow from 'models/matrixRow'
+import generateId from 'utils/generateId'
 
 const TreeFactory = () => {
   let rootNode: INode | null = null
@@ -13,18 +12,18 @@ const TreeFactory = () => {
   const addToMatrix = (value: number, depth: number, nodeIndex: number) => {
     if (!matrix[depth]) {
       const elements = [ ...Array(2 ** depth) ].map((): IMatrixElement => ({
-        id: shortid.generate(),
+        id: generateId(),
         value: null
       }))
   
       matrix[depth] = {
         elements,
-        id: shortid.generate()
+        id: generateId()
       }
     }
 
     matrix[depth].elements[nodeIndex] = {
-      id: shortid.generate(), // value works too but for consistency sake use shortid.generate() everywhere
+      id: generateId(), // value works too but for consistency sake use generateId() everywhere
       value
     }
   }
@@ -64,12 +63,12 @@ const TreeFactory = () => {
       rootNode = NodeFactory(value)
 
       const rootMatrixEl: IMatrixElement = {
-        id: shortid.generate(),
+        id: generateId(),
         value: rootNode.value
       }
       const rootMatrixRow = {
         elements: [ rootMatrixEl ],
-        id: shortid.generate()
+        id: generateId()
       }
 
       matrix = [ rootMatrixRow ]      

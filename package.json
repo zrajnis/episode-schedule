@@ -10,7 +10,7 @@
     "lint:fix": "eslint --ext .ts,.tsx,.js . --fix",
     "stylelint:check": "stylelint ./**/*.scss",
     "stylelint:fix": "stylelint ./**/*.scss",
-    "check-types": "tsc",
+    "types:check": "tsc",
     "start": "babel-node --extensions .ts server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -43,6 +43,7 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.6.0",
     "postcss-scss": "^2.0.0",
+    "pre-commit": "^1.2.2",
     "react-hot-loader": "^4.8.4",
     "rimraf": "^2.6.3",
     "sass-loader": "^7.1.0",
@@ -68,7 +69,10 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router": "^5.0.0",
-    "react-router-dom": "^5.0.0",
-    "shortid": "^2.2.14"
-  }
+    "react-router-dom": "^5.0.0"
+  },
+  "pre-commit": [
+    "lint:check",
+    "stylelint:check"
+  ]
 }
