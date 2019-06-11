@@ -5,7 +5,6 @@ interface ComponentProps {
 }
 
 const Link = ({ direction }: ComponentProps): ReactElement =>
-  <div className={`c-linked-node__link c-linked-node__link--${direction}`}>
-  </div>
+  <div className={`c-linked-node__link c-linked-node__link--${direction} o-fade-in`} />
 
 export default Link

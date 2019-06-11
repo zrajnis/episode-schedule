@@ -32,6 +32,8 @@ const BinarySearchTree = (): ReactElement => {
           {row.elements.map((el: IMatrixElement, j: number) =>
             <LinkedNode
               color={j % 2 === 0 ? 'blue' : 'red'}
+              displayLeftLink={!!tree.getLeftChild(el.value)}
+              displayRightLink={!!tree.getRightChild(el.value)}
               key={el.id}
               rowNumber={i+1}
               value={el.value}

@@ -86,6 +86,34 @@ const TreeFactory = () => {
 
   tree.getMatrix = () => [ ...matrix ]
 
+  const recursiveSearch = (node: INode, value: number): INode => {
+    if (node.value === value) {
+      return node
+    }
+
+    if (value < node.value && node.left) {
+      return recursiveSearch(node.left, value)
+    }
+
+    if (value > node.value && node.right) {
+      return recursiveSearch(node.right, value)
+    }
+  }
+
+  const getNodeChild = (value: number | null, child: 'left' | 'right') => {
+    if (value === null) {
+      return null
+    }
+
+    const node = recursiveSearch(rootNode, value)
+
+    return node && node[child]
+  }
+
+  tree.getLeftChild = (value: number): null | INode => getNodeChild(value, 'left')
+
+  tree.getRightChild = (value: number): null | INode => getNodeChild(value, 'right')
+
   return tree
 }
 
