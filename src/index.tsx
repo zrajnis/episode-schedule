@@ -7,7 +7,7 @@ import App from 'containers/App'
 
 import 'styles/main.scss'
 
-const render = (Component: number) => {
+const render = (Component: any) => {
   ReactDOM.render(
     <AppContainer>
       <BrowserRouter>
@@ -20,6 +20,6 @@ const render = (Component: number) => {
 
 render(App)
 
-if ((module as object).hot) {
-  (module as object).hot.accept('containers/App', () => render(App))
+if ((module as any).hot) {
+  (module as any).hot.accept('containers/App', () => render(App))
 } 

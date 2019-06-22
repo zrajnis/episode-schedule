@@ -6,7 +6,7 @@ import path from 'path'
 const { PORT } = process.env
 const app: express.Application = express()
 
-const staticDir = path.join(__dirname, 'dist')
+const staticDir = path.join(__dirname, 'build/dist')
 const staticIndex = path.join(staticDir, 'index.html')
 
 app.use(express.static(staticDir))

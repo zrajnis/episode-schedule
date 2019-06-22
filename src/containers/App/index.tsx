@@ -1,5 +1,4 @@
-import React from 'react'
-import { ReactElement } from '@types/react'
+import React, { ReactElement } from 'react'
 
 import BinarySearchTree from 'containers/BinarySearchTree'
 

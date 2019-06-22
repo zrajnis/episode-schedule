@@ -1,6 +1,6 @@
 interface INode {
-  left: null | INode,
-  right: null | INode,
+  left: INode | null,
+  right: INode | null,
   value: number,
 }
 

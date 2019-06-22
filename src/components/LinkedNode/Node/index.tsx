@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 
 interface ComponentProps {
   color: 'blue' | 'red',

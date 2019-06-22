@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, ReactElement, ChangeEvent, FormEvent } from 'react'
 
 interface ComponentProps {
-  onSubmit: () => void
+  onSubmit: (value: number) => void
 }
 
 const SubmitForm = ({ onSubmit }: ComponentProps): ReactElement => {
   const [ inputValue, setInputValue ] = useState('')
 
-  const handleSubmit = (e: Event) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (inputValue === '') {
       return
     }
 
-    onSubmit(inputValue)
+    onSubmit(Number(inputValue))
     setInputValue('')
   }
 
-  const handleChange = ({ target: { value } }: Event) => setInputValue(Number(value))
+  const handleChange = ({ target: { value } }: ChangeEvent<HTMLInputElement>) => setInputValue(value)
 
   return (
     <form onSubmit={handleSubmit}>

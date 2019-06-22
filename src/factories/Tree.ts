@@ -2,12 +2,12 @@ import NodeFactory from 'factories/Node'
 import INode from 'models/node'
 import IMatrixElement from 'models/matrixElement'
 import IMatrixRow from 'models/matrixRow'
+import ITree from 'models/tree'
 import generateId from 'utils/generateId'
 
-const TreeFactory = () => {
+const TreeFactory = (): ITree => {
   let rootNode: INode | null = null
   let matrix: IMatrixRow[]
-  const tree = {}
 
   const addToMatrix = (value: number, depth: number, nodeIndex: number) => {
     if (!matrix[depth]) {
@@ -28,7 +28,7 @@ const TreeFactory = () => {
     }
   }
 
-  const recursiveAdd = (node: INode, value: number, depth: number, nodeIndex: number) => {
+  const recursiveAdd = (node: INode, value: number, depth: number, nodeIndex: number): void => {
     if (value < node.value && !node.left) {
       node.left = NodeFactory(value)
       addToMatrix(value, depth, nodeIndex)
@@ -48,17 +48,17 @@ const TreeFactory = () => {
     }
 
     if (value < node.value) {
-      return recursiveAdd(node.left, value, depth + 1, nodeIndex * 2)
+      return recursiveAdd(node.left as INode, value, depth + 1, nodeIndex * 2)
     }
 
     if (value > node.value) {
-      return recursiveAdd(node.right, value, depth + 1, (nodeIndex + 1) * 2)
+      return recursiveAdd(node.right as INode, value, depth + 1, (nodeIndex + 1) * 2)
     }
 
     throw Error(`Number ${value} already exists`)
   }
 
-  tree.add = (value: number) => {
+  const add = (value: number, tree: ITree) => {
     if (!rootNode) {
       rootNode = NodeFactory(value)
 
@@ -84,9 +84,9 @@ const TreeFactory = () => {
     return tree
   }
 
-  tree.getMatrix = () => [ ...matrix ]
+  const getMatrix = (): IMatrixRow[] => [ ...matrix ]
 
-  const recursiveSearch = (node: INode, value: number): INode => {
+  const recursiveSearch = (node: INode, value: number): INode | null => {
     if (node.value === value) {
       return node
     }
@@ -98,6 +98,8 @@ const TreeFactory = () => {
     if (value > node.value && node.right) {
       return recursiveSearch(node.right, value)
     }
+
+    return null
   }
 
   const getNodeChild = (value: number | null, child: 'left' | 'right') => {
@@ -105,14 +107,22 @@ const TreeFactory = () => {
       return null
     }
 
-    const node = recursiveSearch(rootNode, value)
+    const node = recursiveSearch((rootNode as INode), value)
 
     return node && node[child]
   }
 
-  tree.getLeftChild = (value: number): null | INode => getNodeChild(value, 'left')
+  const getLeftChild = (value: number | null): null | INode => getNodeChild(value, 'left')
 
-  tree.getRightChild = (value: number): null | INode => getNodeChild(value, 'right')
+  const getRightChild = (value: number | null): null | INode => getNodeChild(value, 'right')
+
+  const tree: ITree = {
+    add: (value: number) => add(value, tree),
+    getLeftChild,
+    getMatrix,
+    getRightChild
+  }
+
 
   return tree
 }

@@ -4,7 +4,7 @@
   "description": "Binary tree visualization app",
   "main": "src/index.js",
   "scripts": {
-    "build": "rimraf dist/ && webpack --config ./webpack.prod.config.js --progress --profile --colors",
+    "build": "rimraf build/ && webpack --config ./webpack.prod.config.js --progress --profile --colors",
     "dev": "webpack-dev-server",
     "lint:check": "eslint --ext .ts,.tsx,.js .",
     "lint:fix": "eslint --ext .ts,.tsx,.js . --fix",
@@ -73,6 +73,7 @@
   },
   "pre-commit": [
     "lint:check",
-    "stylelint:check"
+    "stylelint:check",
+    "types:check"
   ]
 }

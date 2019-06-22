@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { ReactElement } from '@types/react'
+import React, { useState, ReactElement } from 'react'
 
 import LinkedNode from 'components/LinkedNode'
 import SubmitForm from 'components/SubmitForm'
@@ -12,7 +11,7 @@ const tree = TreeFactory()
 
 const BinarySearchTree = (): ReactElement => {
   const [ error, setError ] = useState(null)
-  const [ matrix, setMatrix ] = useState([[]])
+  const [ matrix, setMatrix ] = useState<IMatrixRow[]>()
 
   const onSubmit = (val: number) => {
     try {
@@ -24,9 +23,9 @@ const BinarySearchTree = (): ReactElement => {
     }
   }
 
-  const displayRows = matrix[0].elements &&
+  const displayRows = matrix &&
     <div className='c-tree'>
-      {matrix.map((row: IMatrixRow[], i: number) =>
+      {matrix.map((row: IMatrixRow, i: number) =>
         <div className='u-flex-middle'
           key={row.id}>
           {row.elements.map((el: IMatrixElement, j: number) =>
@@ -35,7 +34,7 @@ const BinarySearchTree = (): ReactElement => {
               displayLeftLink={!!tree.getLeftChild(el.value)}
               displayRightLink={!!tree.getRightChild(el.value)}
               key={el.id}
-              rowNumber={i+1}
+              rowNumber={i + 1}
               value={el.value}
             />
           )}
