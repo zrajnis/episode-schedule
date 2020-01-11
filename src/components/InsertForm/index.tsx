@@ -4,7 +4,7 @@ interface ComponentProps {
   onSubmit: (value: number) => void
 }
 
-const SubmitForm = ({ onSubmit }: ComponentProps): ReactElement => {
+const InsertForm = ({ onSubmit }: ComponentProps): ReactElement => {
   const [ inputValue, setInputValue ] = useState('')
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -33,4 +33,4 @@ const SubmitForm = ({ onSubmit }: ComponentProps): ReactElement => {
   )
 }
 
-export default SubmitForm
+export default InsertForm

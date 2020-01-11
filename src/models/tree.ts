@@ -1,11 +1,9 @@
-import IMatrixRow from "models/matrixRow"
-import INode from "models/node";
+import { IMatrixRow } from 'models/matrix'
+import { INode } from 'models/node'
 
-interface ITree {
-  add: (value: number) => any,
+export interface ITree {
   getMatrix: () => IMatrixRow[],
-  getLeftChild: (value: number | null) => INode | null,
-  getRightChild: (value: number | null) => INode | null
+  getLeftChild: (value: number | null, id: string | null) => INode | null,
+  getRightChild: (value: number | null, id: string | null) => INode | null,
+  insert: (value: number) => ITree
 }
-
-export default ITree

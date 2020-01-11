@@ -1,11 +1,10 @@
 import React, { useState, ReactElement } from 'react'
 
+import InsertForm from 'components/InsertForm'
 import LinkedNode from 'components/LinkedNode'
-import SubmitForm from 'components/SubmitForm'
 
 import TreeFactory from 'factories/tree'
-import IMatrixElement from 'models/matrixElement'
-import IMatrixRow from 'models/matrixRow'
+import { IMatrixElement, IMatrixRow } from 'models/matrix'
 
 const tree = TreeFactory()
 
@@ -15,7 +14,7 @@ const BinarySearchTree = (): ReactElement => {
 
   const onSubmit = (val: number) => {
     try {
-      tree.add(val)
+      tree.insert(val)
       setMatrix(tree.getMatrix())
     } catch (e) {
       setError(e.message)
@@ -31,8 +30,8 @@ const BinarySearchTree = (): ReactElement => {
           {row.elements.map((el: IMatrixElement, j: number) =>
             <LinkedNode
               color={j % 2 === 0 ? 'blue' : 'red'}
-              displayLeftLink={!!tree.getLeftChild(el.value)}
-              displayRightLink={!!tree.getRightChild(el.value)}
+              displayLeftLink={!!tree.getLeftChild(el.value, el.id)}
+              displayRightLink={!!tree.getRightChild(el.value, el.id)}
               key={el.id}
               rowNumber={i + 1}
               value={el.value}
@@ -45,7 +44,7 @@ const BinarySearchTree = (): ReactElement => {
   return (
     <>
       <div className='u-flex-center u-flex-column u-m-t-50'>
-        <SubmitForm onSubmit={onSubmit} />
+        <InsertForm onSubmit={onSubmit} />
         <div className={`${error ? 'c-error' : 'c-error c-error--hidden'}`}>{error}</div>
       </div>
       {displayRows}
