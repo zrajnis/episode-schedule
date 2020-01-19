@@ -1,23 +1,27 @@
 import NodeFactory from 'factories/Node'
-import { INode, ENodeChild, TNodeChild } from 'models/node'
+import { ENodeChild, INode, INodeSearchResult, TNodeChild } from 'models/node'
 import { IMatrixElement, IMatrixRow } from 'models/matrix'
 import { ITree } from 'models/tree'
 import generateId from 'utils/generateId'
 
 const TreeFactory = (): ITree => {
   let rootNode: INode | null = null
-  let matrix: IMatrixRow[]
+  let matrix: IMatrixRow[] | null = null
 
-  const insertToMatrix = (value: number, id: string, depth: number, nodeIndex: number) => {
+  const insertToMatrix = ({ value, id }: INode, matrix: IMatrixRow[] | null, depth: number, nodeIndex: number) => {
+    if (!matrix) {
+      matrix = []
+    }
+
     if (!matrix[depth]) {
-      const elements = [ ...Array(2 ** depth) ].map((): IMatrixElement => ({
-        id: generateId(),
+      const elements = [ ...Array(2 ** depth) ].map((_, i: number): IMatrixElement => ({
+        id: `el${depth}-${i}`, // wont affect diffing algorithm
         value: null
       }))
   
       matrix[depth] = {
         elements,
-        id: generateId()
+        id: `row${depth + 1}`
       }
     }
 
@@ -27,22 +31,76 @@ const TreeFactory = (): ITree => {
     }
   }
 
-  const insertToNodeAndMatrix = (node: INode,value: number, depth: number, nodeIndex: number, child: TNodeChild) => {
-    const id = generateId()
+  const recursiveCreateMatrix = (
+    node: INode,
+    matrix: IMatrixRow[] = [],
+    depth: number = 0,
+    nodeIndex: number = 0
+  ): IMatrixRow[] => {
+    if (node === rootNode) {
+      insertToMatrix(node, matrix, depth, nodeIndex)
+    }
 
-    node[child]= NodeFactory(value, id)
-    insertToMatrix(value, id, depth, nodeIndex)
+    if (!node.left && !node.right) {
+      return matrix
+    }
+
+    if (node.left) {
+      insertToMatrix(node.left, matrix, depth + 1, nodeIndex)
+      recursiveCreateMatrix(node.left, matrix, depth + 1, nodeIndex * 2)
+    }
+
+    if (node.right) {
+      insertToMatrix(node.right, matrix, depth + 1, nodeIndex + 1)
+      recursiveCreateMatrix(node.right, matrix, depth + 1, (nodeIndex + 1) * 2)
+    }
+
+    return matrix
+  }
+
+  const createMatrix = () => {
+    if (!rootNode) {
+      matrix = null
+
+      return matrix
+    }
+
+    matrix = recursiveCreateMatrix(rootNode as INode)
+
+    return matrix
+  }
+
+  const recursiveSearch = (node: INode, parent: INode | null, el: IMatrixElement): INodeSearchResult => {
+    if (node.id === el.id) { // no destructuring as a small optimization / naming would be clunky
+      return {
+        node,
+        parent
+      }
+    }
+
+    if ((el.value as number) < node.value && node.left) {
+      return recursiveSearch(node.left, node, el)
+    }
+
+    if ((el.value as number) >= node.value && node.right) {
+      return recursiveSearch(node.right, node, el)
+    }
+
+    return {
+      node: null,
+      parent: null
+    }
   }
 
   const recursiveInsert = (node: INode, value: number, depth: number, nodeIndex: number): void => {
     if (value < node.value && !node.left) {
-      insertToNodeAndMatrix(node, value, depth, nodeIndex, 'left')
+      node.left = NodeFactory(value, generateId())
 
       return
     }
 
     if (value >= node.value && !node.right) {
-      insertToNodeAndMatrix(node, value, depth, nodeIndex + 1, 'right')
+      node.right = NodeFactory(value, generateId())
 
       return
     }
@@ -60,77 +118,129 @@ const TreeFactory = (): ITree => {
     }
   }
 
-  const insert = (value: number, tree: ITree) => {
+  const insert = (value: number) => {
     if (!rootNode) {
       const id = generateId()
 
       rootNode = NodeFactory(value, id)
-
-      const rootMatrixEl: IMatrixElement = {
-        id,
-        value: rootNode.value
-      }
-      const rootMatrixRow = {
-        elements: [ rootMatrixEl ],
-        id: generateId()
-      }
-
-      matrix = [ rootMatrixRow ]      
+      createMatrix()
       
-      return tree
+      return
     }
 
     const initialDepth = 1
     const initialNodeIndex = 0
 
-    recursiveInsert(rootNode, value, initialDepth, initialNodeIndex)    
+    recursiveInsert(rootNode, value, initialDepth, initialNodeIndex)
+    createMatrix()
 
-    return tree
+    return
   }
 
-  const getMatrix = (): IMatrixRow[] => [ ...matrix ]
-
-  const recursiveSearch = (node: INode, value: number, id: string): INode | null => {
-    if (node.id === id) {
-      return node
+  const recursiveFindMaxLeftChild = (node: INode, parent: INode): INodeSearchResult => {
+    if (!node.right) {
+      return {
+        node, // perhaps it's better returning just parent, and accessing node with parent.right
+        parent
+      }
     }
 
-    if (value < node.value && node.left) {
-      return recursiveSearch(node.left, value, id)
-    }
-
-    if (value >= node.value && node.right) {
-      return recursiveSearch(node.right, value, id)
-    }
-
-    return null
+    return recursiveFindMaxLeftChild(node.right, node)
   }
 
-  const getNodeChild = (value: number | null, id: string | null, child: TNodeChild) => {
-    if (value === null || id === null) {
+  const removeFn = (el: IMatrixElement) => {
+    const { node, parent } = recursiveSearch(rootNode as INode, null, el)
+    const hasOnlyRightChild = node!.right && !node!.left
+    const hasAnyChild = node!.right || node!.left
+    const nodeSide = parent && parent.right === node ? ENodeChild.Right : ENodeChild.Left
+    const hasLeftMaxChild = node!.left && node!.left.right
+
+    if (!hasAnyChild && !parent) {
+      rootNode = null
+
+      return
+    }
+
+    if (!hasAnyChild && parent!.right === node) {
+      parent![nodeSide] = null
+
+      return
+    }
+
+    if (!parent && hasOnlyRightChild) {
+      rootNode = node!.right
+
+      return
+    }
+
+    if (hasOnlyRightChild) {
+      parent!.right = node!.right
+
+      return
+    }
+
+    if (hasLeftMaxChild) {
+      const {
+        node: maxLeftChild,
+        parent: maxLeftParent
+      } = recursiveFindMaxLeftChild(node!.left as INode, node as INode)
+
+      maxLeftParent!.right = null
+
+      node!.value = maxLeftChild!.value
+      node!.id = maxLeftChild!.id
+
+      return
+    }
+
+    if (!parent && !hasLeftMaxChild) {
+      node!.left!.right = node!.right
+      rootNode = node!.left
+
+      return
+    }
+
+    if (!hasLeftMaxChild) {
+      parent![nodeSide] = node!.left
+
+      return
+    } 
+
+    return
+  }
+
+  const remove = (el: IMatrixElement) => {
+    removeFn(el)
+    createMatrix()
+
+    return
+  }
+
+  const getMatrix = (): IMatrixRow[] | null => matrix && [ ...matrix ]
+
+  const getNodeChild = (el: IMatrixElement, child: TNodeChild) => {
+    if (el.value === null) {
       return null
     }
 
-    const node = recursiveSearch((rootNode as INode), value, id)
+    const { node } = recursiveSearch((rootNode as INode), null, el as IMatrixElement)
 
     return node && node[child]
   }
 
-  const getLeftChild = (value: number | null, id: string | null): null | INode =>
-    getNodeChild(value, id, ENodeChild.Left)
+  const getLeftChild = (el: IMatrixElement): null | INode =>
+    getNodeChild(el, ENodeChild.Left)
 
-  const getRightChild = (value: number | null, id: string | null): null | INode =>
-    getNodeChild(value, id, ENodeChild.Right)
+  const getRightChild = (el: IMatrixElement): null | INode =>
+    getNodeChild(el, ENodeChild.Right)
 
-  const tree: ITree = {
+  return {
     getLeftChild,
     getMatrix,
     getRightChild,
-    insert: (value: number) => insert(value, tree)
+    insert,
+    remove
   }
-
-
-  return tree
 }
 
 export default TreeFactory

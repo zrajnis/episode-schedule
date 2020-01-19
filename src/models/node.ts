@@ -11,3 +11,8 @@ export enum ENodeChild {
   Left = 'left',
   Right = 'right'
 }
+
+export interface INodeSearchResult {
+  node: INode | null,
+  parent: INode | null
+}

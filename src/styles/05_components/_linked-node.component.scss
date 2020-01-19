@@ -10,6 +10,7 @@
     border: 1px solid $color-black;
     border-radius: 50%;
     color: $color-black;
+    cursor: pointer;
     display: flex;
     height: 36px;
     justify-content: center;
@@ -22,6 +23,12 @@
 
     &--red {
       background: $color-primary;
+    }
+
+    &--selected {
+      background: $color-white;
+      border: 1px solid $color-primary;
+      color: $color-black;
     }
   }
 

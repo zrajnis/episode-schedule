@@ -18,6 +18,7 @@ module.exports = {
     '@typescript-eslint/indent': [ 'error', 2 ],
     '@typescript-eslint/explicit-function-return-type': false,
     '@typescript-eslint/member-delimiter-style': false,
+    '@typescript-eslint/no-non-null-assertion': false,
     '@typescript-eslint/no-var-requires': false,
     '@typescript-eslint/interface-name-prefix': 'always',
     'max-len': [
